@@ -1,35 +1,32 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FaRocket } from "react-icons/fa";
 
 export default function Navbar() {
   const location = useLocation();
 
-  const isActive = (path) => location.pathname === path;
-
   return (
-    <nav className="flex justify-between items-center px-8 py-4 bg-black/30 backdrop-blur-md shadow-lg text-white">
-      <div className="flex items-center gap-2">
-        <FaRocket className="text-purple-400 text-2xl" />
-        <span className="text-xl font-bold">StudySphere</span>
-      </div>
-      <div className="flex gap-8">
+    <nav className="fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-[rgba(10,12,12,0.9)] border-b border-[var(--border)] shadow-lg">
+      <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+        {/* 🔹 Left: Logo */}
         <Link
           to="/"
-          className={`${
-            isActive("/") ? "text-purple-400 border-b-2 border-purple-400" : "hover:text-purple-300"
-          } transition-all font-medium`}
+          className="text-xl md:text-2xl font-bold text-[var(--accent1)] hover:text-[var(--accent2)] tracking-wide transition-all"
         >
-          Home
+          StudySphere 🚀
         </Link>
-        <Link
-          to="/subjects"
-          className={`${
-            isActive("/subjects") ? "text-purple-400 border-b-2 border-purple-400" : "hover:text-purple-300"
-          } transition-all font-medium`}
-        >
-          Subjects
-        </Link>
+
+        {/* 🔹 Right: Buttons */}
+        <div className="flex items-center gap-4">
+          <Link to="/" className="btn-neon">
+            <div className="blob1"></div>
+            <div className="inner">Home</div>
+          </Link>
+
+          <Link to="/subjects" className="btn-neon">
+            <div className="blob1"></div>
+            <div className="inner">Subjects</div>
+          </Link>
+        </div>
       </div>
     </nav>
   );

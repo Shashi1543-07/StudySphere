@@ -79,28 +79,43 @@ const AdminPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#0a001a] to-[#1a033d] text-white flex flex-col items-center justify-center px-4 relative overflow-hidden">
-      {/* 🌌 Background */}
-      <div className="absolute inset-0 bg-[radial-gradient(white,transparent_1px)] bg-[size:20px_20px] opacity-10 pointer-events-none"></div>
+    <div className="min-h-screen bg-[var(--bg)] text-white flex flex-col items-center justify-center px-4 relative overflow-hidden">
+      {/* 🌌 Background particles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(40)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute rounded-full bg-[var(--accent1)] opacity-20 animate-twinkle"
+            style={{
+              width: Math.random() * 3 + "px",
+              height: Math.random() * 3 + "px",
+              top: Math.random() * 100 + "%",
+              left: Math.random() * 100 + "%",
+              animationDelay: Math.random() * 5 + "s",
+            }}
+          ></div>
+        ))}
+      </div>
 
       {/* 🔐 Admin Upload Panel */}
-      <div className="relative z-10 bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-2xl p-10 w-full max-w-md text-center">
-        <h1 className="text-2xl font-bold mb-6 text-purple-300 flex justify-center items-center gap-2">
-          <span role="img" aria-label="lock">🔐</span> Admin Upload Panel
+      <div className="relative z-10 bg-[rgba(20,22,22,0.7)] backdrop-blur-xl border border-[var(--border)] rounded-2xl shadow-2xl p-10 w-full max-w-md text-center">
+        <h1 className="text-2xl font-bold mb-6 text-[var(--accent1)] flex justify-center items-center gap-2">
+          <span role="img" aria-label="lock">📤</span> Admin Upload Panel
         </h1>
 
         {user && (
           <p className="text-sm text-gray-300 mb-4">
-            Logged in as <span className="text-purple-400">{user.email}</span>
+            Logged in as <span className="text-[var(--accent1)]">{user.email}</span>
           </p>
         )}
 
+        {/* 🔽 Upload Form */}
         <form onSubmit={handleUpload} className="space-y-4">
           {/* Subject Dropdown */}
           <select
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
-            className="w-full p-3 bg-[#1a033d]/60 border border-purple-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full p-3 bg-[#111313]/60 border border-[var(--border)] rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[var(--accent1)]"
           >
             <option value="">Select Subject</option>
             {Object.keys(subjectResources).map((subj) => (
@@ -115,7 +130,7 @@ const AdminPage = () => {
             value={type}
             onChange={(e) => setType(e.target.value)}
             disabled={!subject}
-            className="w-full p-3 bg-[#1a033d]/60 border border-purple-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-pink-500"
+            className="w-full p-3 bg-[#111313]/60 border border-[var(--border)] rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[var(--accent2)]"
           >
             <option value="">Select Resource Type</option>
             {subject &&
@@ -132,7 +147,7 @@ const AdminPage = () => {
             placeholder="Enter resource title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full p-3 bg-[#1a033d]/60 border border-purple-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-400"
+            className="w-full p-3 bg-[#111313]/60 border border-[var(--border)] rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--accent1)]"
           />
 
           {/* Link Input */}
@@ -141,15 +156,16 @@ const AdminPage = () => {
             placeholder="Paste resource link here"
             value={link}
             onChange={(e) => setLink(e.target.value)}
-            className="w-full p-3 bg-[#1a033d]/60 border border-purple-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-400"
+            className="w-full p-3 bg-[#111313]/60 border border-[var(--border)] rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--accent2)]"
           />
 
           {/* Upload Button */}
           <button
             type="submit"
-            className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full shadow-lg hover:scale-105 transform transition-all font-semibold"
+            className="btn-neon w-full mt-2"
           >
-            Upload Resource
+            <div className="blob1"></div>
+            <div className="inner">Upload Resource</div>
           </button>
         </form>
 
@@ -168,20 +184,22 @@ const AdminPage = () => {
           </p>
         )}
 
-        {/* Buttons Section */}
+        {/* Navigation Buttons */}
         <div className="flex flex-col gap-3 mt-6">
           <button
             onClick={() => navigate("/")}
-            className="py-2 bg-white/10 hover:bg-white/20 text-gray-300 rounded-full transition-all"
+            className="btn-neon w-full"
           >
-            ← Back to Home
+            <div className="blob1"></div>
+            <div className="inner">← Back to Home</div>
           </button>
 
           <button
             onClick={handleLogout}
-            className="py-2 bg-gradient-to-r from-red-500 to-pink-500 hover:scale-105 rounded-full shadow-lg transition-all"
+            className="btn-neon w-full"
           >
-            Logout
+            <div className="blob1"></div>
+            <div className="inner">Logout</div>
           </button>
         </div>
       </div>

@@ -1,0 +1,382 @@
+/* =========================================================
+   🌌 STUDYSPHERE — DARK TECH MINIMALISM THEME (Neon Blue)
+   ========================================================= */
+
+:root {
+  --bg: #0b0c0c;
+  --bg-alt: #0f1111;
+  --surface: rgba(30, 30, 32, 0.6);
+  --border: rgba(255, 255, 255, 0.05);
+  --text: #f1f1f1;
+  --text-dim: #a9a9a9;
+  --accent1: #3fe9ff;
+  --accent2: #0051ff;
+  --ring: #00caff33;
+  --radius: 16px;
+  --transition: 0.3s ease;
+}
+
+/* ===================================
+   GLOBAL BASE
+=================================== */
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  color: var(--text);
+  background: radial-gradient(circle at 20% 20%, var(--bg-alt), var(--bg));
+  background-attachment: fixed;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+/* ===================================
+   SCROLLBAR
+=================================== */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--accent1), var(--accent2));
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--accent2), var(--accent1));
+}
+
+/* ===================================
+   NAVBAR / HEADER
+=================================== */
+nav, header nav {
+  background: rgba(15, 17, 17, 0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+
+/* ===================================
+   PANELS / CARDS
+=================================== */
+.card, .panel, .feature-card, .subject-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  backdrop-filter: blur(10px);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.card:hover, .feature-card:hover, .subject-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 30px rgba(0, 200, 255, 0.1);
+}
+
+/* ===================================
+   BUTTONS
+=================================== */
+.btn {
+  background: #1a1c1d;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 20px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.btn:hover {
+  border-color: rgba(0,200,255,0.3);
+  box-shadow: 0 0 20px rgba(0,180,255,0.15);
+  transform: translateY(-2px);
+}
+
+.button {
+  cursor: pointer;
+  font-size: 1.4rem;
+  border-radius: 20px;
+  border: none;
+  padding: 3px;
+  background: radial-gradient(circle 120px at 80% -10%, #ffffff, #181b1b);
+  position: relative;
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+.button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 25px rgba(63, 233, 255, 0.4);
+}
+
+.button::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 35px rgba(63, 233, 255, 0.25);
+  z-index: -1;
+  transition: all 0.4s ease-in-out;
+}
+
+.blob1 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  bottom: 0;
+  left: 0;
+  background: radial-gradient(
+    circle 120px at 0% 100%,
+    #3fe9ff,
+    #0051ff80,
+    transparent
+  );
+  box-shadow: 0 0 40px #00b7ff40;
+  z-index: 0;
+  opacity: 0.8;
+  transition: all 0.4s ease-in-out;
+}
+
+.inner {
+  padding: 20px;
+  border-radius: 18px;
+  color: #fff;
+  z-index: 3;
+  position: relative;
+  background: radial-gradient(
+    circle 120px at 80% -50%,
+    #4d4d4d,
+    #0f1111
+  );
+  transition: background 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.button:hover .inner {
+  background: radial-gradient(circle 120px at 80% -50%, #777777, #0f1111);
+  box-shadow: inset 0 0 25px rgba(63, 233, 255, 0.2);
+}
+
+.inner::before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  border-radius: 18px;
+  background: radial-gradient(
+    circle 120px at 0% 100%,
+    #00e1ff1a,
+    #0000ff11,
+    transparent
+  );
+  position: absolute;
+  z-index: 1;
+}
+
+.btn-neon .blob1 {
+  position: absolute;
+  width: 70px;
+  height: 100%;
+  border-radius: 16px;
+  bottom: 0;
+  left: 0;
+  background: radial-gradient(circle 60px at 0% 100%, var(--accent1), #0000ff80, transparent);
+  box-shadow: -10px 10px 30px #0051ff2d;
+  animation: blobMove 3s ease-in-out infinite alternate;
+}
+.btn-neon .inner {
+  padding: 14px 25px;
+  border-radius: 14px;
+  color: #fff;
+  position: relative;
+  background: radial-gradient(circle 80px at 80% -50%, #777777, #0f1111);
+  font-weight: 600;
+}
+@keyframes blobMove {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(15px, -10px); }
+}
+
+/* ===================================
+   FORMS
+=================================== */
+input, select, textarea {
+  background: #141617;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  outline: none;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: rgba(0,200,255,0.25);
+  box-shadow: 0 0 0 3px var(--ring);
+}
+
+/* ===================================
+   FOOTER
+=================================== */
+footer {
+  border-top: 1px solid var(--border);
+  text-align: center;
+  color: var(--text-dim);
+  background: rgba(20,20,22,0.8);
+  backdrop-filter: blur(6px);
+  padding: 2rem 0;
+  font-size: 0.9rem;
+}
+
+/* Accent Animations */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+.animate-twinkle { animation: twinkle 5s ease-in-out infinite; }
+/* ===================================================
+   🌌 UNIVERSAL NEON THEME — Dual Glow System
+   =================================================== */
+
+/* === Compact Button Glow (Navbar, Home, etc.) === */
+.btn-neon {
+  position: relative;
+  display: inline-block;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #fff;
+  overflow: hidden;
+  background: radial-gradient(circle 80px at 80% -10%, #ffffff, #181b1b);
+  padding: 8px 24px;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 0 12px rgba(63, 233, 255, 0.25);
+}
+
+.btn-neon:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 20px rgba(63, 233, 255, 0.45);
+}
+
+.btn-neon::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    145deg,
+    rgba(63, 233, 255, 0.2),
+    rgba(0, 0, 255, 0.05)
+  );
+  box-shadow: inset 0 0 10px rgba(63, 233, 255, 0.4);
+  z-index: 0;
+}
+
+.btn-neon .inner {
+  position: relative;
+  z-index: 2;
+  color: #fff;
+}
+
+/* === Card Glow (Subject Cards) === */
+.card-neon {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  background: radial-gradient(circle 180px at 80% -10%, #ffffff, #101212);
+  padding: 3px;
+  transition: all 0.4s ease;
+  cursor: pointer;
+}
+
+.card-neon::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  background: radial-gradient(
+    circle 180px at 0% 100%,
+    rgba(63, 233, 255, 0.25),
+    rgba(0, 81, 255, 0.05),
+    transparent
+  );
+  box-shadow: 0 0 25px rgba(63, 233, 255, 0.3);
+  z-index: -1;
+  transition: all 0.5s ease;
+}
+
+.card-neon:hover::before {
+  box-shadow: 0 0 40px rgba(63, 233, 255, 0.6);
+}
+
+.card-inner {
+  background: radial-gradient(
+    circle 180px at 80% -50%,
+    #4a4a4a,
+    #0f1111
+  );
+  border-radius: 18px;
+  padding: 24px;
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s ease-in-out;
+}
+
+.card-neon:hover .card-inner {
+  background: radial-gradient(circle 180px at 80% -50%, #777777, #0f1111);
+  box-shadow: inset 0 0 25px rgba(63, 233, 255, 0.25);
+}
+
+.card-title {
+  color: var(--accent1, #3fe9ff);
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-shadow: 0 0 8px rgba(63, 233, 255, 0.5);
+}
+/* ===================================================
+   🌟 EDGE GLOW ENHANCEMENT — subtle but visible outline
+   (keeps original gradients intact)
+   =================================================== */
+
+/* Stronger visible glow around all neon buttons */
+.btn-neon {
+  box-shadow: 0 0 15px rgba(63, 233, 255, 0.4), 0 0 3px rgba(63, 233, 255, 0.3);
+  border: 1px solid rgba(63, 233, 255, 0.15);
+}
+
+.btn-neon:hover {
+  box-shadow: 0 0 25px rgba(63, 233, 255, 0.6), 0 0 5px rgba(63, 233, 255, 0.4);
+  border-color: rgba(63, 233, 255, 0.4);
+  transform: translateY(-3px);
+}
+
+/* Add a crisp neon ring to button edges */
+.btn-neon::before {
+  box-shadow: inset 0 0 8px rgba(63, 233, 255, 0.35);
+}
+
+/* Subject Cards — outer glow edge enhancement */
+.card-neon {
+  box-shadow: 0 0 15px rgba(63, 233, 255, 0.25), inset 0 0 5px rgba(63, 233, 255, 0.15);
+  border: 1px solid rgba(63, 233, 255, 0.1);
+}
+
+.card-neon::before {
+  box-shadow: 0 0 25px rgba(63, 233, 255, 0.35), inset 0 0 8px rgba(63, 233, 255, 0.2);
+}
+
+.card-neon:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 0 25px rgba(63, 233, 255, 0.45), inset 0 0 8px rgba(63, 233, 255, 0.25);
+}
+
+.card-neon:hover::before {
+  box-shadow: 0 0 35px rgba(63, 233, 255, 0.6), inset 0 0 12px rgba(63, 233, 255, 0.3);
+}
+
+/* Card Inner Glow retains clean surface */
+.card-inner {
+  box-shadow: inset 0 0 10px rgba(63, 233, 255, 0.1);
+}

@@ -6,7 +6,7 @@ import SubjectsPage from "./pages/SubjectsPage";
 import SubjectDetailPage from "./pages/SubjectDetailPage";
 import ResourceListPage from "./pages/ResourceListPage";
 import AdminPage from "./pages/AdminPage";
-import AdminLoginPage from "./pages/AdminLoginPage"; // ✅ Added import
+import AdminLoginPage from "./pages/AdminLoginPage";
 import "./index.css";
 
 const App = () => {
@@ -30,17 +30,14 @@ const App = () => {
   const handleTouchStart = () => {
     pressTimer.current = setTimeout(() => activateAdminMode(), 2500);
   };
-
-  const handleTouchEnd = () => {
-    clearTimeout(pressTimer.current);
-  };
+  const handleTouchEnd = () => clearTimeout(pressTimer.current);
 
   // ✨ Activate Admin Mode
   const activateAdminMode = () => {
     setShowAdminButton(true);
     setShowToast(true);
 
-    // Smooth fade-out of toast after 3 seconds
+    // Fade-out toast after 3 s
     setTimeout(() => {
       const toast = document.querySelector(".admin-toast");
       if (toast) {
@@ -52,19 +49,15 @@ const App = () => {
     resetHideTimer();
   };
 
-  // 🕒 Hide gear after 15 seconds of inactivity
+  // 🕒 Hide gear after 15 s of inactivity
   const resetHideTimer = () => {
     if (hideTimer.current) clearTimeout(hideTimer.current);
-    hideTimer.current = setTimeout(() => {
-      setShowAdminButton(false);
-    }, 15000);
+    hideTimer.current = setTimeout(() => setShowAdminButton(false), 5000);
   };
 
   // 👀 Detect user activity while admin button is visible
   useEffect(() => {
-    const handleActivity = () => {
-      if (showAdminButton) resetHideTimer();
-    };
+    const handleActivity = () => showAdminButton && resetHideTimer();
     window.addEventListener("mousemove", handleActivity);
     window.addEventListener("click", handleActivity);
     window.addEventListener("keydown", handleActivity);
@@ -75,31 +68,32 @@ const App = () => {
     };
   }, [showAdminButton]);
 
-  // 🔐 Redirect to Firebase Auth Login page
-  const handleAdminAccess = () => {
-    window.location.href = "/admin-login";
-  };
+  // 🔐 Redirect to Admin Login
+  const handleAdminAccess = () => (window.location.href = "/admin-login");
 
   return (
     <Router>
       <div className="min-h-screen bg-gradient-to-b from-[#0a001a] to-[#1a033d] text-white relative overflow-hidden">
-        {/* ✨ Starry background */}
+        {/* 🌌 Starry background */}
         <div className="absolute inset-0 bg-[radial-gradient(white,transparent_1px)] bg-[size:20px_20px] opacity-10 pointer-events-none" />
 
         {/* 🔝 Navbar */}
         <Navbar />
 
-        {/* 🌌 Page routes */}
+        {/* 🌌 Routes */}
         <div className="pt-20 relative z-10">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/subjects" element={<SubjectsPage />} />
             <Route path="/subject/:subjectId" element={<SubjectDetailPage />} />
-            <Route path="/subject/:subjectId/:type" element={<ResourceListPage />} />
+            <Route
+              path="/subject/:subjectId/:type"
+              element={<ResourceListPage />}
+            />
             <Route path="/admin" element={<AdminPage />} />
-            <Route path="/admin-login" element={<AdminLoginPage />} /> {/* ✅ Added route */}
+            <Route path="/admin-login" element={<AdminLoginPage />} />
 
-            {/* 🚫 404 Fallback */}
+            {/* 🚫 404 fallback */}
             <Route
               path="*"
               element={
@@ -110,7 +104,10 @@ const App = () => {
                   </p>
                   <a
                     href="/"
-                    className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition"
+                    className="bg-[radial-gradient(circle_at_80%_-10%,_#3fe9ff,_#0051ff80)]
+                    text-white px-6 py-3 rounded-lg shadow-[0_0_20px_rgba(63,233,255,0.4)]
+                    hover:shadow-[0_0_35px_rgba(63,233,255,0.7)]
+                    hover:scale-105 transition"
                   >
                     Back to Home
                   </a>
@@ -120,28 +117,40 @@ const App = () => {
           </Routes>
         </div>
 
-        {/* 🕵️ Invisible touch area for mobile long press */}
+        {/* 🕵️ Invisible touch area for mobile long-press */}
         <div
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
           className="fixed bottom-6 right-6 w-10 h-10 opacity-0 z-40"
-        ></div>
+        />
 
         {/* ⚙️ Floating Admin Button */}
         {showAdminButton && (
           <div
             onClick={handleAdminAccess}
-            className="fixed bottom-6 right-6 bg-gradient-to-r from-purple-500 to-pink-500 w-12 h-12 rounded-full flex items-center justify-center text-2xl font-bold text-white shadow-lg hover:scale-110 hover:shadow-purple-400/40 transition-all cursor-pointer z-50"
             title="Admin Access"
+            className="fixed bottom-6 right-6 w-12 h-12 rounded-full flex items-center justify-center
+            text-2xl font-bold text-[var(--accent1)]
+            bg-[radial-gradient(circle_at_80%_-10%,_#ffffff,_#0f1111)]
+            border border-[rgba(63,233,255,0.25)]
+            shadow-[0_0_25px_rgba(63,233,255,0.5)]
+            hover:shadow-[0_0_35px_rgba(63,233,255,0.8)]
+            hover:scale-110 transition-all duration-300
+            cursor-pointer overflow-hidden backdrop-blur-md z-50"
           >
             ⚙️
           </div>
         )}
 
-        {/* ✨ Toast Message */}
+        {/* ✨ Admin-Mode Toast */}
         {showToast && (
           <div
-            className="admin-toast fixed top-6 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-full shadow-lg text-sm font-semibold animate-fadeIn z-50 transition-all duration-700"
+            className="admin-toast fixed top-6 left-1/2 -translate-x-1/2
+            px-5 py-2 rounded-full text-sm font-semibold tracking-wide
+            text-white shadow-[0_0_25px_rgba(63,233,255,0.4)]
+            bg-[radial-gradient(circle_at_80%_-10%,_#3fe9ff,_#0051ff80)]
+            border border-[rgba(63,233,255,0.3)]
+            backdrop-blur-md animate-pulse z-50 transition-all duration-700"
           >
             ✨ Admin Mode Activated
           </div>

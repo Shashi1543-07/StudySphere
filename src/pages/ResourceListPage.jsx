@@ -19,7 +19,7 @@ const ResourceListPage = () => {
     .join(" ")
     .replace(" -", "-");
 
-  const formattedType = type?.toLowerCase().trim(); // <- normalize tab type
+  const formattedType = type?.toLowerCase().trim();
 
   useEffect(() => {
     const fetchResources = async () => {
@@ -30,8 +30,7 @@ const ResourceListPage = () => {
         const data = querySnapshot.docs
           .map((doc) => doc.data())
           .filter(
-            (r) =>
-              r.type?.toLowerCase().trim() === formattedType // ✅ case-insensitive match
+            (r) => r.type?.toLowerCase().trim() === formattedType
           );
 
         setResources(data);
@@ -46,39 +45,55 @@ const ResourceListPage = () => {
   }, [formattedSubject, formattedType]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#0a001a] to-[#1a033d] text-white relative overflow-hidden flex flex-col items-center p-8">
-      {/* 🌌 Background grid */}
-      <div className="absolute inset-0 bg-[radial-gradient(white,transparent_1px)] bg-[size:20px_20px] opacity-10 pointer-events-none"></div>
+    <div className="min-h-screen relative overflow-hidden flex flex-col items-center text-white bg-[var(--bg)]">
+      {/* 🌌 Floating background particles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(60)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute rounded-full bg-[var(--accent1,#3fe9ff)] opacity-20 animate-twinkle"
+            style={{
+              width: Math.random() * 3 + "px",
+              height: Math.random() * 3 + "px",
+              top: Math.random() * 100 + "%",
+              left: Math.random() * 100 + "%",
+              animationDelay: Math.random() * 6 + "s",
+            }}
+          ></div>
+        ))}
+      </div>
 
       {/* 🏛️ Header */}
-      <div className="text-center relative z-10 mt-10 mb-8">
-        <h1 className="text-4xl font-extrabold mb-3 drop-shadow-lg">
+      <div className="relative z-10 text-center mt-20 mb-10">
+        <h1 className="text-4xl font-extrabold tracking-wide text-[var(--accent1)] drop-shadow-[0_0_25px_var(--accent1)]">
           {formattedSubject} — {type}
         </h1>
-        <p className="text-gray-300 text-lg">
+        <p className="text-gray-300 mt-2 max-w-2xl mx-auto">
           Explore all available {type.toLowerCase()} for this subject.
         </p>
       </div>
 
       {/* 📚 Resource List */}
-      <div className="relative z-10 max-w-3xl w-full">
+      <div className="relative z-10 max-w-3xl w-full px-6">
         {loading ? (
           <p className="text-gray-400 text-center">Loading...</p>
         ) : resources.length > 0 ? (
-          <ul className="space-y-4">
+          <ul className="flex flex-col gap-6">
             {resources.map((resource, index) => (
               <li
                 key={index}
-                className="p-5 bg-white/10 rounded-xl backdrop-blur-md border border-purple-500/30 shadow-lg hover:scale-[1.02] transform transition-all duration-300"
+                className="card-neon hover:scale-[1.02] transform transition-all duration-300"
               >
-                <a
-                  href={resource.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-purple-300 hover:text-white text-lg font-medium underline transition-all"
-                >
-                  {resource.title || "Open Resource"}
-                </a>
+                <div className="card-inner text-center">
+                  <a
+                    href={resource.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[var(--accent1)] hover:text-white text-lg font-semibold underline transition-all"
+                  >
+                    {resource.title || "Open Resource"}
+                  </a>
+                </div>
               </li>
             ))}
           </ul>
@@ -90,12 +105,9 @@ const ResourceListPage = () => {
       </div>
 
       {/* 🔙 Back button */}
-      <div className="flex gap-6 mt-12 relative z-10">
-        <Link
-          to={`/subject/${subjectId}`}
-          className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all"
-        >
-          ← Back to {formattedSubject}
+      <div className="relative z-10 mt-16 mb-10">
+        <Link to={`/subject/${subjectId}`} className="btn-neon">
+          <div className="inner">← Back to {formattedSubject}</div>
         </Link>
       </div>
     </div>

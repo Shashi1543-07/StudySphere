@@ -9,7 +9,7 @@ const SubjectDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  // 🧠 Smart normalization — handles both dashes and numbers correctly
+  // 🧠 Normalize subject name (handles dashes and numbers)
   const formattedSubject = subjectId
     .split("-")
     .map((word, index) => {
@@ -20,7 +20,7 @@ const SubjectDetailPage = () => {
     .join(" ")
     .replace(" -", "-");
 
-  // 🔥 Real-time Firestore fetching with flexible subject matching
+  // 🔥 Firestore listener
   useEffect(() => {
     const q = query(
       collection(db, "resources"),
@@ -43,7 +43,7 @@ const SubjectDetailPage = () => {
     return () => unsubscribe();
   }, [formattedSubject]);
 
-  // ✅ Subject Tabs — matches all expected subjects and types
+  // ✅ Subject tabs
   const subjectTabs = {
     "Mathematics-1": ["Notes", "M-1 Tutorial", "Links"],
     "Electrical Engineering": ["Notes", "EE LAB", "Links"],
@@ -54,60 +54,72 @@ const SubjectDetailPage = () => {
 
   const tabs = subjectTabs[formattedSubject] || ["Notes", "Links"];
 
-  // ✅ Navigate to ResourceListPage when tab clicked
+  // ✅ Handle tab click
   const handleTabClick = (tab) => {
     navigate(`/subject/${subjectId}/${encodeURIComponent(tab)}`);
   };
 
-  // ✅ Normalize type comparison for case-insensitive match
+  // ✅ Check if tab has resources
   const hasResourcesForTab = (tab) =>
     resources.some(
-      (r) =>
-        r.type?.toLowerCase().trim() === tab.toLowerCase().trim()
+      (r) => r.type?.toLowerCase().trim() === tab.toLowerCase().trim()
     );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#0a001a] to-[#1a033d] text-white relative overflow-hidden flex flex-col items-center justify-start p-8">
-      {/* 🌌 Particle background */}
-      <div className="absolute inset-0 bg-[radial-gradient(white,transparent_1px)] bg-[size:20px_20px] opacity-20 pointer-events-none"></div>
+    <div className="min-h-screen relative overflow-hidden flex flex-col items-center text-white bg-[var(--bg)]">
+      {/* ✨ Floating particles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(60)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute rounded-full bg-[var(--accent1,#3fe9ff)] opacity-20 animate-twinkle"
+            style={{
+              width: Math.random() * 3 + "px",
+              height: Math.random() * 3 + "px",
+              top: Math.random() * 100 + "%",
+              left: Math.random() * 100 + "%",
+              animationDelay: Math.random() * 6 + "s",
+            }}
+          ></div>
+        ))}
+      </div>
 
       {/* 🏛️ Title Section */}
-      <div className="text-center relative z-10 mt-10 mb-8">
-        <h1 className="text-5xl font-extrabold mb-4 drop-shadow-lg tracking-wide">
+      <div className="relative z-10 text-center mt-20 mb-10">
+        <h1 className="text-4xl font-extrabold tracking-wide text-[var(--accent1)] drop-shadow-[0_0_25px_var(--accent1)]">
           {formattedSubject}
         </h1>
-        <p className="text-gray-300 text-lg">
+        <p className="text-gray-300 mt-2 max-w-xl mx-auto">
           Explore curated study materials, tutorials, and labs for this subject.
         </p>
       </div>
 
       {/* 📚 Subject Tabs */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl w-full mt-8 relative z-10">
+      <div className="relative z-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-10 max-w-6xl w-full mt-8 px-6">
         {tabs.map((tab, index) => (
           <div
             key={index}
             onClick={() => handleTabClick(tab)}
-            className="cursor-pointer rounded-2xl bg-gradient-to-br from-purple-500/30 to-pink-500/20 backdrop-blur-lg shadow-lg hover:scale-105 transform transition-all duration-300 p-6 text-center border border-purple-500/30 hover:shadow-purple-400/40"
+            className="cursor-pointer card-neon transform hover:scale-[1.03] transition-all duration-300"
           >
-            <h3 className="text-2xl font-semibold mb-3 text-white">{tab}</h3>
-            <p className="text-gray-400 text-sm italic">
-              {loading
-                ? "Loading..."
-                : hasResourcesForTab(tab)
-                ? `Click to view ${tab.toLowerCase()}`
-                : `No ${tab.toLowerCase()} available yet.`}
-            </p>
+            <div className="card-inner text-center">
+              <h3 className="card-title mb-3">{tab}</h3>
+              <p className="text-gray-400 text-sm italic">
+                {loading
+                  ? "Loading..."
+                  : hasResourcesForTab(tab)
+                  ? `Click to view ${tab.toLowerCase()}`
+                  : `No ${tab.toLowerCase()} available yet.`}
+              </p>
+            </div>
           </div>
         ))}
       </div>
 
       {/* 🔙 Back Button */}
-      <div className="flex justify-center mt-12 relative z-10">
-        <Link
-          to="/subjects"
-          className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all"
-        >
-          ← Back to Subjects
+      <div className="relative z-10 mt-16 mb-12">
+        <Link to="/subjects" className="btn-neon">
+          <div className="inner">← Back to Subjects</div>
         </Link>
       </div>
     </div>
