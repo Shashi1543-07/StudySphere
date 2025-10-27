@@ -18,7 +18,7 @@ const App = () => {
   // 🧠 PC Shortcut Combo: Ctrl + Shift + A
   useEffect(() => {
     const handleKeyCombo = (e) => {
-      if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "a") {
+      if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "z") {
         activateAdminMode();
       }
     };
