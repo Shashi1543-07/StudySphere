@@ -15,7 +15,7 @@ const App = () => {
   const pressTimer = useRef(null);
   const hideTimer = useRef(null);
 
-  // 🧠 PC Shortcut Combo: Ctrl + Shift + A
+  // 🧠 PC Shortcut Combo: Ctrl + Shift + Z
   useEffect(() => {
     const handleKeyCombo = (e) => {
       if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "z") {
@@ -33,27 +33,37 @@ const App = () => {
   const handleTouchEnd = () => clearTimeout(pressTimer.current);
 
   // ✨ Activate Admin Mode
-  const activateAdminMode = () => {
-    setShowAdminButton(true);
-    setShowToast(true);
+const activateAdminMode = () => {
+  setShowAdminButton(true);
+  setShowToast(true);
 
-    // Fade-out toast after 3 s
-    setTimeout(() => {
-      const toast = document.querySelector(".admin-toast");
-      if (toast) {
-        toast.classList.add("fade-out");
-        setTimeout(() => setShowToast(false), 700);
-      }
-    }, 3000);
+  // Fade-out toast & hide gear after 5 seconds
+  const timeoutDuration = 5000; // common duration
 
-    resetHideTimer();
-  };
+  setTimeout(() => {
+    const toast = document.querySelector(".admin-toast");
+    if (toast) {
+      toast.classList.add("fade-out");
+      setTimeout(() => setShowToast(false), 500); // allow fade animation to complete
+    }
+    setShowAdminButton(false); // hide gear at the same time
+  }, timeoutDuration);
 
-  // 🕒 Hide gear after 15 s of inactivity
-  const resetHideTimer = () => {
-    if (hideTimer.current) clearTimeout(hideTimer.current);
-    hideTimer.current = setTimeout(() => setShowAdminButton(false), 5000);
-  };
+  resetHideTimer();
+};
+
+// 🕒 Hide gear after 5 s of inactivity (same duration as toast)
+const resetHideTimer = () => {
+  if (hideTimer.current) clearTimeout(hideTimer.current);
+
+  const timeoutDuration = 5000; // same as above
+
+  hideTimer.current = setTimeout(() => {
+    setShowAdminButton(false);
+    setShowToast(false); // also hide toast in case it’s still showing
+  }, timeoutDuration);
+};
+
 
   // 👀 Detect user activity while admin button is visible
   useEffect(() => {
